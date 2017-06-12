@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<serverList>
+    <server name="server1">
+        <uuid>1101</uuid>
+        <model>Euclidean</model>
+        <soundList>
+            <sound>kick</sound> 
+        </soundList>
+    </server>
+    <server name="server2">
+        <uuid>8148</uuid>
+        <model>Euclidean</model>
+        <soundList>
+            <sound>snare</sound> 
+        </soundList>
+    </server>
+    <server name="server3">
+        <uuid>2146</uuid>
+        <model>Euclidean</model>
+        <soundList>
+            <sound>highhat_OpenToClose</sound> 
+        </soundList>
+    </server>
+    <server name="server4">
+        <uuid>3369</uuid>
+        <model>Euclidean</model>
+        <soundList>
+            <sound>highhat_Closed</sound> 
+        </soundList>
+    </server>
+    <server name="server5">
+        <uuid>4910</uuid>
+        <model>Euclidean</model>
+        <soundList>        
+            <sound>kick</sound> 
+        </soundList>
+    </server>
+</serverList>

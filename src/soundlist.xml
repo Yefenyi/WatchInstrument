@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<soundlist>
+    <sound>
+        <location>src/raw/snare.mp3</location>
+        <name>snare</name>
+    </sound>
+    <sound>
+        <location>src/raw/kick.mp3</location>
+        <name>kick</name>
+    </sound>
+    <sound>
+        <location>src/raw/highhat.mp3</location>
+        <name>highhat</name>
+    </sound>
+     <sound>
+        <location>src/raw/RC.mp3</location>
+        <name>RC</name>
+    </sound>
+    <sound>
+        <location>src/raw/highhat_Closed.mp3</location>
+        <name>highhat_Closed</name>
+    </sound>
+    <sound>
+        <location>src/raw/highhat_OpenToClose.mp3</location>
+        <name>highhat_OpenToClose</name>
+    </sound>
+</soundlist>
