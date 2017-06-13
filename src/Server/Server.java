@@ -4,6 +4,8 @@ import Info.ServerInfo;
 import Info.SoundInfo;
 import Parser.SoundParser;
 import Util.ModelMap;
+import Util.DataCollector.DataCollector;
+import Util.DataCollector.Simple3AxisCollector;
 import Util.Model.Model;
 import Util.Sound.btAudioPlayer;
 
@@ -71,32 +73,25 @@ public class Server implements Runnable{
 			PrintWriter pWriter=new PrintWriter(new OutputStreamWriter(outStream));
 			
 			 try {
-		            InputStream inputStream = connection.openInputStream();
-		            BufferedReader bReader=new BufferedReader(new InputStreamReader(inputStream));
-		            System.out.println(this.name + "Listening started...");
+				    DataCollector sac = new Simple3AxisCollector(this.name,connection);
 		            while (true) {	             	
-		            	String lineRead =bReader.readLine();
-		            	if(lineRead.startsWith("/p")){
-		            		String[] numbers = lineRead.split("/p");
-		            		double x = Double.parseDouble(numbers[1]);
-		            		double y = Double.parseDouble(numbers[2]);
-		            		double z = Double.parseDouble(numbers[3]);
-		            		
-		            		int output = this.model.update(new ArrayList<Double>(Arrays.asList(x,y,z)));
-		            	    btAudioPlayer player = outputMap.get(output);
-		            		if(player!=null){	
-		            			player.play();
+		            	    ArrayList<Double> newdata = sac.listen();
+		            		if (newdata!=null){
+			            		int output = this.model.update(newdata);
+			            	    btAudioPlayer player = outputMap.get(output);
+			            		if(player!=null){	
+			            			player.play();
+			            		}
 		            		}
 		            	}
-		            }
+
 		} catch(NullPointerException npe){
 			run();			
-		}catch (IOException e) {
-			e.printStackTrace();
-			}
 
-	}catch(Exception e){
+	}
+   }catch(Exception e){
 	    e.printStackTrace();	
 	}
-	}
+
+}
 }
