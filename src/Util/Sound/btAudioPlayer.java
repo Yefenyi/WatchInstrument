@@ -23,7 +23,7 @@ public class btAudioPlayer{
 		this.count = count;
 	}
 	
-	public void play(int volume,int panning){		
+	public void play(double volume,double panning){		
 		/*
 		 * index = (index+1)%count;
 		players.get(index).play(volume,panning);	
