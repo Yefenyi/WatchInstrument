@@ -4,5 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="lib" path="C:/Users/Matt Ye/Downloads/bluecove-2.1.1-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Matt Ye/Downloads/jaco-mp3-player-0.9.3/jaco-mp3-player-0.9.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Matt Ye/Downloads/tinysound-1.1.1/tinysound-1.1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
