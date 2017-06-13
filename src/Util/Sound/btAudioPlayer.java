@@ -13,7 +13,7 @@ public class btAudioPlayer{
 	
 	private ArrayList<Sound> players;
 	int index = 0,count;
-	double volume=5,panning=1;
+	double volume=5,panning=0;
 	String path;
 	
 	public btAudioPlayer(String path, int count){
