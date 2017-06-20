@@ -2,9 +2,12 @@
 <serverList>
     <server name="server1">
         <uuid>1101</uuid>
-        <model>Euclidean</model>
+        <model>UserModel</model>
         <soundList>
             <sound>kick</sound> 
+            <sound>snare</sound>
+            <sound>highhat_Closed</sound>  
+            <sound>highhat_OpenToClose</sound> 
         </soundList>
     </server>
     <server name="server2">

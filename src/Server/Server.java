@@ -4,10 +4,12 @@ import Info.ServerInfo;
 import Info.SoundInfo;
 import Parser.SoundParser;
 import Util.ModelMap;
+import Util.Preprocessing;
 import Util.DataCollector.DataCollector;
 import Util.DataCollector.Simple3AxisCollector;
 import Util.Model.Model;
 import Util.Sound.btAudioPlayer;
+import Util.segmentation.Segmentation;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,6 +21,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.bluetooth.*;
@@ -31,8 +34,11 @@ public class Server implements Runnable{
     private UUID uuid;  
     private ArrayList<btAudioPlayer> playerlist= new ArrayList<btAudioPlayer>();
     private Model model;
+    private StreamConnection connection; 
     private StreamConnectionNotifier streamConnNotifier;
     private Map<Integer,btAudioPlayer> outputMap = new HashMap<Integer,btAudioPlayer>();
+    private DataCollector sac;
+
     
 	public Server(ServerInfo serverinfo) throws IOException{
 		this.name = serverinfo.getName();
@@ -58,24 +64,39 @@ public class Server implements Runnable{
 		this.streamConnNotifier = (StreamConnectionNotifier)Connector.open( connectionString );		
 	}
 	
+	void initServer(){
+		sac = new Simple3AxisCollector(this.name,connection);
+		
+		System.out.println("\n" + this.name + " started. Waiting for clients to connect¡­");
+		try {
+			connection = streamConnNotifier.acceptAndOpen();
+		
+		RemoteDevice dev;
+		dev = RemoteDevice.getRemoteDevice(connection);
+
+		System.out.println(this.name + ": Connected");
+					
+		OutputStream outStream = connection.openOutputStream();
+		PrintWriter pWriter=new PrintWriter(new OutputStreamWriter(outStream));
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}		
+		
+	}
+	
 	@Override
 	public void run() {        
 		try {
-			System.out.println("\n" + this.name + " started. Waiting for clients to connect¡­");
-			StreamConnection connection = streamConnNotifier.acceptAndOpen();		
-			RemoteDevice dev;
-			dev = RemoteDevice.getRemoteDevice(connection);
-			//System.out.println(this.name + ": Remote device address: "+dev.getBluetoothAddress());
-			//System.out.println(this.name + ": Remote device name: "+dev.getFriendlyName(true));
-			System.out.println(this.name + ": Connected");
-						
-			OutputStream outStream = connection.openOutputStream();
-			PrintWriter pWriter=new PrintWriter(new OutputStreamWriter(outStream));
-			
+			 initServer();
 			 try {
-				    DataCollector sac = new Simple3AxisCollector(this.name,connection);
 		            while (true) {	             	
-		            	    ArrayList<Double> newdata = sac.listen();
+		            	    double[] newdataarray = sac.listen();
+		            	    ArrayList<Double> newdata = new ArrayList<Double>();
+		            	    for (double data:newdataarray){
+		            	        newdata.add(data);
+		            	    }
+		            	    
 		            		if (newdata!=null){
 			            		int output = this.model.update(newdata);
 			            	    btAudioPlayer player = outputMap.get(output);

@@ -30,7 +30,7 @@ public class Simple3AxisCollector extends DataCollector{
 	}
 	
 	@Override
-	public ArrayList<Double> listen() {
+	public double[] listen() {
 		// TODO Auto-generated method stub
 		try{
 			String lineRead =bReader.readLine();
@@ -39,7 +39,7 @@ public class Simple3AxisCollector extends DataCollector{
 	    		double x = Double.parseDouble(numbers[1]);
 	    		double y = Double.parseDouble(numbers[2]);
 	    		double z = Double.parseDouble(numbers[3]);
-			return new ArrayList<Double>(Arrays.asList(x,y,z));
+			return new double[]{x,y,z};
 	    }else return null;
 	}catch(IOException e){  
 		return null;
