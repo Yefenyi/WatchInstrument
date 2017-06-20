@@ -9,8 +9,6 @@ import Util.DataCollector.DataCollector;
 import Util.DataCollector.Simple3AxisCollector;
 import Util.Model.Model;
 import Util.Sound.btAudioPlayer;
-import Util.segmentation.Segmentation;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -51,6 +49,7 @@ public class Server implements Runnable{
 		}
 		
 		outputMap.put(model.getOutPutArray().get(0), null);
+
 		for(int index = 1;index<model.getOutPutArray().size();index++){
 			outputMap.put(model.getOutPutArray().get(index),playerlist.get(index-1));
 		}		
@@ -65,19 +64,20 @@ public class Server implements Runnable{
 	}
 	
 	void initServer(){
-		sac = new Simple3AxisCollector(this.name,connection);
+		
 		
 		System.out.println("\n" + this.name + " started. Waiting for clients to connect¡­");
 		try {
-			connection = streamConnNotifier.acceptAndOpen();
-		
-		RemoteDevice dev;
-		dev = RemoteDevice.getRemoteDevice(connection);
+			this.connection = streamConnNotifier.acceptAndOpen();
 
-		System.out.println(this.name + ": Connected");
-					
-		OutputStream outStream = connection.openOutputStream();
-		PrintWriter pWriter=new PrintWriter(new OutputStreamWriter(outStream));
+			RemoteDevice dev;
+			dev = RemoteDevice.getRemoteDevice(this.connection);
+	
+			sac = new Simple3AxisCollector(this.name,this.connection);
+			System.out.println(this.name + ": Connected");
+						
+			//OutputStream outStream = connection.openOutputStream();
+			//PrintWriter pWriter=new PrintWriter(new OutputStreamWriter(outStream));
 		} catch (IOException e) {
 
 			e.printStackTrace();
@@ -91,14 +91,15 @@ public class Server implements Runnable{
 			 initServer();
 			 try {
 		            while (true) {	             	
-		            	    double[] newdataarray = sac.listen();
-		            	    ArrayList<Double> newdata = new ArrayList<Double>();
-		            	    for (double data:newdataarray){
-		            	        newdata.add(data);
-		            	    }
-		            	    
-		            		if (newdata!=null){
+		            	    double[] newdataarray = sac.listen();		            	    
+		            		if (newdataarray!=null){
+		            	        //System.out.println(newdataarray[0]+","+newdataarray[1]+","+newdataarray[2]);
+		            	        ArrayList<Double> newdata = new ArrayList<Double>();
+		            	        for (double data:newdataarray){
+		            	            newdata.add(data);
+		            	        }
 			            		int output = this.model.update(newdata);
+			            		//System.out.println(output);
 			            	    btAudioPlayer player = outputMap.get(output);
 			            		if(player!=null){	
 			            			player.play();
@@ -107,7 +108,8 @@ public class Server implements Runnable{
 		            	}
 
 		} catch(NullPointerException npe){
-			run();			
+			npe.printStackTrace();
+			//run();			
 
 	}
    }catch(Exception e){

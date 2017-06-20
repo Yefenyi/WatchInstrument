@@ -40,7 +40,7 @@ public class Segmentation{
 	{
 		euclideanAverage = ppc.getEuclideanAverage();
 		historyAverage = ppc.getHistoryAverage();
-		
+		READY_FOR_FEATURE_EXTRACTION = false;
 		//if (idx>(SIZE_OF_BUFFER+10)){
 			if (euclideanAverage[SIZE_OF_BUFFER-1]>1.5 && flag == false && idxBuf == 0 && euclideanAverage[SIZE_OF_BUFFER-1]-euclideanAverage[SIZE_OF_BUFFER-3]>0)
 			{
@@ -48,11 +48,15 @@ public class Segmentation{
 				READY_FOR_FEATURE_EXTRACTION = false;
 			}
 			
-			else if (idxBuf == SIZE_OF_SEGMENT)
+			if (idxBuf == SIZE_OF_SEGMENT)
 			{               
 				flag = false;
 				idxBuf = 0;
+				
 				READY_FOR_FEATURE_EXTRACTION = true;
+				//System.out.println("Inner Segmentation: "+READY_FOR_FEATURE_EXTRACTION);
+				return true;
+				//System.out.println(READY_FOR_FEATURE_EXTRACTION);
 			}
 			
 			
@@ -64,8 +68,6 @@ public class Segmentation{
 				buffSegment[idxBuf][2] = historyAverage[2][2];
 
 				idxBuf++;
-				
-				READY_FOR_FEATURE_EXTRACTION = false;
 			}
 			
 			idx++;

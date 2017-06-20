@@ -381,28 +381,35 @@ public static ArrayList<Double> getFeature(Segmentation seg){
 	ArrayList<Double> featurelist = new ArrayList<Double>();
 	double[][] buffSegment	= seg.getBuffSegment();
 	try{
+		
+		double[] MeanFeature = Features.calculateMean(buffSegment);
 		for (int i = 0; i<ParameterNameConstants.NUMBER_OF_AXIS; i++)
 		{
-			featurelist.add(Features.calculateMean(buffSegment)[i]);
+			featurelist.add(MeanFeature[i]);
 		}
 		
+		double[] STDFeature =Features.calculateSTD(buffSegment);
 		for (int i = 0; i<ParameterNameConstants.NUMBER_OF_AXIS; i++)
 		{
-		    featurelist.add(Features.calculateSTD(buffSegment)[i]);
-		}
-		for (int i = 0; i<ParameterNameConstants.NUMBER_OF_AXIS; i++)
-		{
-		    featurelist.add(Features.calculateVarience(buffSegment)[i]);
+		    featurelist.add(STDFeature[i]);
 		}
 		
+		double[] VarienceFeature =Features.calculateVarience(buffSegment);
 		for (int i = 0; i<ParameterNameConstants.NUMBER_OF_AXIS; i++)
 		{
-			featurelist.add(Features.calculateMin(buffSegment)[i]);
+		    featurelist.add(VarienceFeature[i]);
 		}
 		
+		double[] MinFeature =Features.calculateMin(buffSegment);
 		for (int i = 0; i<ParameterNameConstants.NUMBER_OF_AXIS; i++)
 		{
-		    featurelist.add(Features.calculateMax(buffSegment)[i]);
+			featurelist.add(MinFeature[i]);
+		}
+		
+		double[] MaxFeature =Features.calculateMax(buffSegment);
+		for (int i = 0; i<ParameterNameConstants.NUMBER_OF_AXIS; i++)
+		{
+		    featurelist.add(MaxFeature[i]);
 		}
 		
 		//UNCOMMENT
