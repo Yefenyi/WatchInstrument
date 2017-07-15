@@ -21,9 +21,8 @@ public class Simple3AxisCollector extends DataCollector{
 		this.connection = connection;
 		try {
 			this.inputStream = connection.openInputStream();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			//e.printStackTrace();
 		}
         this.bReader=new BufferedReader(new InputStreamReader(inputStream));
         System.out.println(this.name + "Listening started...");

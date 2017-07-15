@@ -9,6 +9,8 @@ import Util.DataCollector.DataCollector;
 import Util.DataCollector.Simple3AxisCollector;
 import Util.Model.Model;
 import Util.Sound.btAudioPlayer;
+import gui.view.mainLayoutController;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,19 +30,61 @@ import javax.microedition.io.*;
 
 public class Server implements Runnable{
 	private static int DEFAULT_PLAYER_NUMBER = 5;
+	private mainLayoutController controller;
     private String name;
+    final private int id;
     private UUID uuid;  
     private ArrayList<btAudioPlayer> playerlist= new ArrayList<btAudioPlayer>();
     private Model model;
-    private StreamConnection connection; 
+    private StreamConnection connection;
+    private double panning;
+    private double volume;
     private StreamConnectionNotifier streamConnNotifier;
     private Map<Integer,btAudioPlayer> outputMap = new HashMap<Integer,btAudioPlayer>();
     private DataCollector sac;
-
     
-	public Server(ServerInfo serverinfo) throws IOException{
+    public int getId(){
+    	return this.id;
+    }
+    
+    public double getPanning(){
+    	if (playerlist.size()>0){
+    	    return playerlist.get(0).getPanning();
+    	}
+    	return 0;
+    }
+    
+    public double getVolume(){
+    	if (playerlist.size()>0){
+    	    return playerlist.get(0).getVolume();
+    	}
+    	return 0;
+    }
+    
+    public void setPanning(double panning){
+    	int length = playerlist.size();
+    	for(int i =0;i<length;i++){
+    		  playerlist.get(i).setPanning(panning); 		
+    	}
+    }
+    
+    public void setVolume(double volume){
+    	int length = playerlist.size();
+    	for(int i =0;i<length;i++){
+    		  playerlist.get(i).setVolume(volume); 		
+    	}
+    }
+    
+    public void setController(mainLayoutController controller){
+        this.controller = controller;	
+    }
+    
+	public Server(ServerInfo serverinfo,int id) throws IOException{
+		this.controller = controller;
+		this.id = id;
 		this.name = serverinfo.getName();
 		this.uuid = new UUID(serverinfo.getUUID(), true);
+		this.panning = panning;
 		this.model =  ModelMap.getModelByName(serverinfo.getModel());
 		ArrayList<SoundInfo> playlist = serverinfo.getSoundSource();
 		for(int index = 0; index<playlist.size();index++){
@@ -75,12 +119,11 @@ public class Server implements Runnable{
 	
 			sac = new Simple3AxisCollector(this.name,this.connection);
 			System.out.println(this.name + ": Connected");
-						
+			controller.setConnected(this.id);
 			//OutputStream outStream = connection.openOutputStream();
 			//PrintWriter pWriter=new PrintWriter(new OutputStreamWriter(outStream));
-		} catch (IOException e) {
-
-			e.printStackTrace();
+		} catch (Exception e) {
+			//e.printStackTrace();
 		}		
 		
 	}
@@ -108,12 +151,13 @@ public class Server implements Runnable{
 		            	}
 
 		} catch(NullPointerException npe){
+			controller.setDisconnected(this.id);
 			npe.printStackTrace();
-			//run();			
+			run();			
 
 	}
    }catch(Exception e){
-	    e.printStackTrace();	
+	    //e.printStackTrace();	
 	}
 
 }

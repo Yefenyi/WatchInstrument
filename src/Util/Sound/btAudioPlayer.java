@@ -23,6 +23,22 @@ public class btAudioPlayer{
 		this.count = count;
 	}
 	
+	public void setPanning(double panning){
+		this.panning = panning;
+	}
+	
+	public void setVolume(double volume){
+		this.volume = volume;
+	}
+	
+	public double getPanning(){
+		return this.panning;
+	}
+	
+	public double getVolume(){
+		return this.volume;
+	}
+	
 	public void play(double volume,double panning){		
 		/*
 		 * index = (index+1)%count;

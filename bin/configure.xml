@@ -2,10 +2,11 @@
 <serverList>
     <server name="server1">
         <uuid>1101</uuid>
-        <model>UserModel</model>
+        <model>Euclidean</model>
+        <panning>0.0</panning>
         <soundList>           
-            <sound>snare</sound>
-            <sound>kick</sound> 
+            <sound>kick</sound>
+            <sound>snare</sound> 
             <sound>highhat_Closed</sound>  
             <sound>highhat_OpenToClose</sound> 
         </soundList>
@@ -13,6 +14,7 @@
     <server name="server2">
         <uuid>8148</uuid>
         <model>Euclidean</model>
+        <panning>0.0</panning>
         <soundList>
             <sound>snare</sound> 
         </soundList>
@@ -20,6 +22,7 @@
     <server name="server3">
         <uuid>2146</uuid>
         <model>Euclidean</model>
+        <panning>0.0</panning>
         <soundList>
             <sound>highhat_OpenToClose</sound> 
         </soundList>
@@ -27,6 +30,7 @@
     <server name="server4">
         <uuid>3369</uuid>
         <model>Euclidean</model>
+        <panning>0.0</panning>
         <soundList>
             <sound>highhat_Closed</sound> 
         </soundList>
@@ -34,8 +38,9 @@
     <server name="server5">
         <uuid>4910</uuid>
         <model>Euclidean</model>
+        <panning>0.0</panning>
         <soundList>        
-            <sound>kick</sound> 
+            <sound>highhat_OpenToClose</sound> 
         </soundList>
     </server>
 </serverList>
