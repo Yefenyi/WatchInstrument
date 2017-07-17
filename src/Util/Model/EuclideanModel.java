@@ -25,7 +25,7 @@ public class EuclideanModel extends Model{
 		double x = newdata.get(0), y = newdata.get(1), z = newdata.get(2);
 		
 		double eudist =  Math.pow((x-lastx),2)+Math.pow((y-lasty),2)+Math.pow((z-lastz),2);
-		if(eudist>130){
+		if(eudist>150){
 			long time = System.currentTimeMillis();
 			if ((time-lasttime)>220){
     			if( FLAG == 0){

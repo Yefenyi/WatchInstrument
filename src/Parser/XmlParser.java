@@ -53,6 +53,9 @@ public class XmlParser {
 		               
 		               String model =serverElement .getElementsByTagName("model") .item(0) .getTextContent();		              
 		               System.out.println("model : " + model);
+		               
+		               double panning =Double.parseDouble(serverElement.getElementsByTagName("panning") .item(0) .getTextContent());		              
+		               System.out.println("panning : " + panning);
 		               	               
 		               Element content = (Element) serverElement.getElementsByTagName("soundList").item(0);
 		               NodeList soundList  =  content.getElementsByTagName("sound");
@@ -70,7 +73,7 @@ public class XmlParser {
 		     	                 + soundname+ ", " + SoundParser.getLocation(soundname));
 		            	   soundInfoList.add(sindex, new SoundInfo(soundname)); 
 		               }		               
-		               serverInfoList.add(temp, new ServerInfo(name, uuid,model, soundInfoList));
+		               serverInfoList.add(temp, new ServerInfo(name, uuid,model, panning, soundInfoList));
 		            }
 		         }	 	     
 		  }catch(Exception e){
