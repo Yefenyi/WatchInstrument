@@ -3,6 +3,8 @@ package Util.Model;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import Util.segmentation.ChannelSegmentation; 
+
 public class EuclideanModel extends Model{
 
 	static final int TRIGGERED = 1;
@@ -12,6 +14,7 @@ public class EuclideanModel extends Model{
 	private double lastx=0., lasty=0., lastz=0.;
 	private int FLAG = 0;
 	private long lasttime;
+	private ChannelSegmentation cnlseg = new ChannelSegmentation();
 	
 	public EuclideanModel(){
 		this.lasttime = System.currentTimeMillis();	
@@ -24,24 +27,10 @@ public class EuclideanModel extends Model{
 		
 		double x = newdata.get(0), y = newdata.get(1), z = newdata.get(2);
 		
-		double eudist =  Math.pow((x-lastx),2)+Math.pow((y-lasty),2)+Math.pow((z-lastz),2);
-		if(eudist>150){
-			long time = System.currentTimeMillis();
-			if ((time-lasttime)>220){
-    			if( FLAG == 0){
-    			    FLAG = 1;
-    			    lasttime = time;
-    			    return TRIGGERED;
-    			}
-		    }
+		double triggered  = cnlseg.update(new double[]{x,y,z});
+		if(triggered == 1){
+			return TRIGGERED;
 		}
-		else{
-			FLAG =0;
-		}
-
-		lastx = x;
-		lasty = y;
-		lastz = z;
 		
 		return UNTRIGGERED;
 	}

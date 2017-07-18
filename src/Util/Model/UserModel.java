@@ -8,12 +8,12 @@ import org.neuroph.core.NeuralNetwork;
 
 import Util.Preprocessing;
 import Util.features.Features;
+import Util.segmentation.ChannelSegmentation;
 import Util.segmentation.Segmentation;
 
 public class UserModel extends Model{
 	private NeuralNetwork nnNet;
-	private Preprocessing ppc;
-	private Segmentation seg;
+	private ChannelSegmentation cnlseg;
 	private ArrayList<Double> featurelist;
 	private double[] output;
 	private int output1=1, output2=2, output3=3, output4=4;
@@ -23,8 +23,7 @@ public class UserModel extends Model{
 	
 	public UserModel(String path){
 		nnNet = NeuralNetwork.createFromFile(path);
-		ppc = new Preprocessing();
-		seg = new Segmentation();
+		cnlseg = new ChannelSegmentation();
 	}
 
 
@@ -36,13 +35,12 @@ public class UserModel extends Model{
 	    	newdataarray[i] = newdata.get(i);
 	    }
 	    
-	    ppc.preprocess(newdataarray);
 	    try {
-	    	boolean READY_FOR_FEATURE_EXTRACTION = seg.segment(ppc);
+	    	double READY_FOR_FEATURE_EXTRACTION = cnlseg.update(newdataarray);
 	    	//System.out.println("Segmentation: "+READY_FOR_FEATURE_EXTRACTION);
-			if(READY_FOR_FEATURE_EXTRACTION){
-			    double[][] buffsegment = seg.getBuffSegment();
-		        featurelist = Features.getFeature(seg);
+			if(READY_FOR_FEATURE_EXTRACTION==1){
+			    double[][] buffsegment = cnlseg.getBuffSegment();
+		        featurelist = Features.getFeature(cnlseg);
 		        process();
 		        
 		        if (output[0] > 0.93)
