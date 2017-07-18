@@ -13,20 +13,17 @@ import javax.swing.*;
 import org.math.plot.*;
 
 public class Segmentation{
-    
-	public int NUMBER_OF_AXIS=3;
-	public int SIZE_OF_BUFFER = 5;
-	public int SIZE_OF_SEGMENT = 17;
-	public int NUMBER_OF_GESTURES = 4;
 	
 
 	private boolean flag = false;
 	private int idxBuf = 0;
-	private double[] combinedBuffer = new double[SIZE_OF_SEGMENT*NUMBER_OF_AXIS];
+	private double[] combinedBuffer = new double[Util.ParameterNameConstants.SIZE_OF_SEGMENT*Util.ParameterNameConstants.NUMBER_OF_AXIS];
 	private int idx = 0;
 	private boolean READY_FOR_FEATURE_EXTRACTION = false;
-
-	private double[][] buffSegment = new double[SIZE_OF_SEGMENT][NUMBER_OF_AXIS];
+	private long millis = 0;
+	private long curGestureTime = 0;
+	private long lastGestureTime = 0;
+	private double[][] buffSegment = new double[Util.ParameterNameConstants.SIZE_OF_SEGMENT][Util.ParameterNameConstants.NUMBER_OF_AXIS];
     private double[] featureList = new double[21];
     double[] euclideanAverage;
 	double[][] historyAverage;
@@ -40,15 +37,22 @@ public class Segmentation{
 	{
 		euclideanAverage = ppc.getEuclideanAverage();
 		historyAverage = ppc.getHistoryAverage();
+		millis = System.currentTimeMillis();
+		curGestureTime = millis;
+	//	System.out.println("Curr: " + curGestureTime);
 		READY_FOR_FEATURE_EXTRACTION = false;
 		//if (idx>(SIZE_OF_BUFFER+10)){
-			if (euclideanAverage[SIZE_OF_BUFFER-1]>1.5 && flag == false && idxBuf == 0 && euclideanAverage[SIZE_OF_BUFFER-1]-euclideanAverage[SIZE_OF_BUFFER-3]>0)
+			if ( (curGestureTime - lastGestureTime) > 360 && euclideanAverage[Util.ParameterNameConstants.SIZE_OF_BUFFER-1]>2.5 && flag == false && idxBuf == 0 && euclideanAverage[Util.ParameterNameConstants.SIZE_OF_BUFFER-1]-euclideanAverage[Util.ParameterNameConstants.SIZE_OF_BUFFER-3]>0)
 			{
+				
+				long diff = curGestureTime - lastGestureTime;
+				lastGestureTime = curGestureTime;
+				System.out.println("Last: " + diff);
 				flag = true;
 				READY_FOR_FEATURE_EXTRACTION = false;
 			}
 			
-			if (idxBuf == SIZE_OF_SEGMENT)
+			if (idxBuf == Util.ParameterNameConstants.SIZE_OF_SEGMENT)
 			{               
 				flag = false;
 				idxBuf = 0;
@@ -69,6 +73,7 @@ public class Segmentation{
 
 				idxBuf++;
 			}
+			
 			
 			idx++;
 			return READY_FOR_FEATURE_EXTRACTION;
