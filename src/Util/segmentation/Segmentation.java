@@ -42,7 +42,7 @@ public class Segmentation{
 	//	System.out.println("Curr: " + curGestureTime);
 		READY_FOR_FEATURE_EXTRACTION = false;
 		//if (idx>(SIZE_OF_BUFFER+10)){
-			if ( (curGestureTime - lastGestureTime) > 360 && euclideanAverage[Util.ParameterNameConstants.SIZE_OF_BUFFER-1]>2.5 && flag == false && idxBuf == 0 && euclideanAverage[Util.ParameterNameConstants.SIZE_OF_BUFFER-1]-euclideanAverage[Util.ParameterNameConstants.SIZE_OF_BUFFER-3]>0)
+			if ( (curGestureTime - lastGestureTime) > 290 && euclideanAverage[Util.ParameterNameConstants.SIZE_OF_BUFFER-1]>2.5 && flag == false && idxBuf == 0 && euclideanAverage[Util.ParameterNameConstants.SIZE_OF_BUFFER-1]-euclideanAverage[Util.ParameterNameConstants.SIZE_OF_BUFFER-3]>0)
 			{
 				
 				long diff = curGestureTime - lastGestureTime;
