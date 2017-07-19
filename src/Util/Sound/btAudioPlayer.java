@@ -11,17 +11,39 @@ import kuusisto.tinysound.internal.StreamSound;
 
 public class btAudioPlayer{
 	
-	private ArrayList<Sound> players;
+	private Sound player;
 	int index = 0,count;
 	double volume=5,panning=0;
 	String path;
 	Thread playThread = new Thread();
+	int interrupting;
 	
-	public btAudioPlayer(String path, int count){
+	
+	public btAudioPlayer(String path, int interrupting){
 		TinySound.init();
 		this.path = path;
+		this.interrupting = interrupting;
 		assert(count>0);
 		this.count = count;
+		player = TinySound.loadSound(path);
+		this.playThread = new Thread(){
+			 public void run(){
+	            	Sound player = TinySound.loadSound(path);
+	            	player.play(volume,panning);
+	            	try {
+	        			Thread.sleep(1000);
+	        		} catch (InterruptedException e) {}
+	            }			
+		};
+	}
+	
+	public void stop(){
+		if(interrupting == 0){
+			return;
+		}
+		if(interrupting == 1){
+			player.stop();
+		}
 	}
 	
 	public void setPanning(double panning){
@@ -39,51 +61,16 @@ public class btAudioPlayer{
 	public double getVolume(){
 		return this.volume;
 	}
-	
-	@SuppressWarnings("deprecation")
-	public void play(double volume,double panning){		
-		/*
-		 * index = (index+1)%count;
-		players.get(index).play(volume,panning);	
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {}
-		*/
-		
-		if(playThread.isAlive()){			
-			playThread.destroy();
-		}
-		
-		playThread = new Thread(){
-			 public void run(){
-	            	Sound player = TinySound.loadSound(path);
-	            	player.play(volume,panning);
-	            	try {
-	        			Thread.sleep(1000);
-	        		} catch (InterruptedException e) {}
-	            }			
-		};
-		playThread.start();
-		
-	}
+
 		
 		public void play(){		
-			/*
-			 * index = (index+1)%count;
-			players.get(index).play(volume,panning);	
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {}
-			*/
-			new Thread(new Runnable(){
-	            public void run(){
-	            	Sound player = TinySound.loadSound(path);
-	            	player.play(volume,panning);
-	            	try {
-	        			Thread.sleep(1000);
-	        		} catch (InterruptedException e) {}
-	            }
-	        }).start();
+			if(interrupting == 0){
+				player.play(volume,panning);				
+			}
+			if(interrupting == 1){
+				//player.stop();
+				player.play(volume,panning);
+			}
 }
 
 	

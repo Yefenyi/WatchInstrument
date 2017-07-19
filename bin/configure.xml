@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <serverList>
     <server name="server1">
+        <interrupt>1</interrupt>
         <uuid>1101</uuid>
         <model>Euclidean</model>
         <panning>0.0</panning>
@@ -12,6 +13,7 @@
         </soundList>
     </server>
     <server name="server2">
+        <interrupt>1</interrupt>
         <uuid>8148</uuid>
         <model>Euclidean</model>
         <panning>0.0</panning>
@@ -20,6 +22,7 @@
         </soundList>
     </server>
     <server name="server3">
+        <interrupt>1</interrupt>
         <uuid>2146</uuid>
         <model>Euclidean</model>
         <panning>0.0</panning>
@@ -28,19 +31,21 @@
         </soundList>
     </server>
     <server name="server4">
+        <interrupt>0</interrupt>
         <uuid>3369</uuid>
         <model>Euclidean</model>
         <panning>0.0</panning>
         <soundList>
-            <sound>highhat_Closed</sound> 
+            <sound>a_Major</sound> 
         </soundList>
     </server>
     <server name="server5">
+        <interrupt>1</interrupt>
         <uuid>4910</uuid>
         <model>Euclidean</model>
         <panning>0.0</panning>
         <soundList>        
-            <sound>a_Major</sound> 
+            <sound>kick</sound> 
         </soundList>
     </server>
 </serverList>

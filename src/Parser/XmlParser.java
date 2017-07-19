@@ -56,6 +56,9 @@ public class XmlParser {
 		               
 		               double panning =Double.parseDouble(serverElement.getElementsByTagName("panning") .item(0) .getTextContent());		              
 		               System.out.println("panning : " + panning);
+		               
+		               int interrupt = Integer.parseInt(serverElement.getElementsByTagName("interrupt") .item(0) .getTextContent());		              
+		               System.out.println("interrupt : " + panning);
 		               	               
 		               Element content = (Element) serverElement.getElementsByTagName("soundList").item(0);
 		               NodeList soundList  =  content.getElementsByTagName("sound");
@@ -73,7 +76,7 @@ public class XmlParser {
 		     	                 + soundname+ ", " + SoundParser.getLocation(soundname));
 		            	   soundInfoList.add(sindex, new SoundInfo(soundname)); 
 		               }		               
-		               serverInfoList.add(temp, new ServerInfo(name, uuid,model, panning, soundInfoList));
+		               serverInfoList.add(temp, new ServerInfo(name, uuid,model, panning, interrupt, soundInfoList));
 		            }
 		         }	 	     
 		  }catch(Exception e){

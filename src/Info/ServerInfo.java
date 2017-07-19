@@ -8,14 +8,20 @@ public class ServerInfo {
 	private String uuid;
 	private String model;
 	private double panning;
+	private int interrupt;
     private ArrayList<SoundInfo> soundSource;
     
-    public ServerInfo(String name, String uuid, String model, double panning, ArrayList<SoundInfo> soundsource){
+    public ServerInfo(String name, String uuid, String model, double panning,int interrupt, ArrayList<SoundInfo> soundsource){
     	this.name = name;
     	this.uuid = uuid;
     	this.model = model;
     	this.panning = panning;
     	this.soundSource = soundsource;
+    	this.interrupt = interrupt;
+    }
+    
+    public int getInterrupt(){
+    	return interrupt;
     }
     
     public String getName(){

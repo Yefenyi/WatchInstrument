@@ -31,6 +31,7 @@ public class Simple3AxisCollector extends DataCollector{
 	@Override
 	public double[] listen() {
 		// TODO Auto-generated method stub
+		if(bReader!=null){
 		try{
 			String lineRead =bReader.readLine();
 			//System.out.println(lineRead);
@@ -43,6 +44,7 @@ public class Simple3AxisCollector extends DataCollector{
 	    }else return null;
 	}catch(IOException e){  
 		return null;
-    }    	
+    }   
+	}else return null;
 	}
 }

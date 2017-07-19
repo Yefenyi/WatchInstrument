@@ -12,6 +12,7 @@ import Util.Sound.btAudioPlayer;
 import gui.view.mainLayoutController;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -33,10 +34,16 @@ public class Server implements Runnable{
 	private mainLayoutController controller;
     private String name;
     final private int id;
-    private UUID uuid;  
+    private UUID uuid;      
     private ArrayList<btAudioPlayer> playerlist= new ArrayList<btAudioPlayer>();
     private Model model;
+    private boolean connected = false;
+    private int interrupt = 0;
+    
     private StreamConnection connection;
+    OutputStream outStream;
+    BufferedWriter bWriter;
+    PrintWriter pWriter;
     private double panning;
     private double volume;
     private StreamConnectionNotifier streamConnNotifier;
@@ -45,6 +52,10 @@ public class Server implements Runnable{
     
     public int getId(){
     	return this.id;
+    }
+    
+    public String getName(){
+    	return this.name;
     }
     
     public double getPanning(){
@@ -79,8 +90,9 @@ public class Server implements Runnable{
         this.controller = controller;	
     }
     
-	public Server(ServerInfo serverinfo,int id) throws IOException{
+	public Server(ServerInfo serverinfo,int id,int interrupt) throws IOException{
 		this.controller = controller;
+		this.interrupt = interrupt;
 		this.id = id;
 		this.name = serverinfo.getName();
 		this.uuid = new UUID(serverinfo.getUUID(), true);
@@ -89,7 +101,7 @@ public class Server implements Runnable{
 		ArrayList<SoundInfo> playlist = serverinfo.getSoundSource();
 		for(int index = 0; index<playlist.size();index++){
 			String path = SoundParser.getLocation(playlist.get(index).getName());
-		    this.playerlist.add(new btAudioPlayer(path,DEFAULT_PLAYER_NUMBER));
+		    this.playerlist.add(new btAudioPlayer(path,this.interrupt));
 		}
 		
 		outputMap.put(model.getOutPutArray().get(0), null);
@@ -107,6 +119,15 @@ public class Server implements Runnable{
 		this.streamConnNotifier = (StreamConnectionNotifier)Connector.open( connectionString );		
 	}
 	
+	public boolean isConnected(){
+		return connected;
+	}
+	
+	public void sendMsg(String msg){
+		pWriter.write(msg);
+		pWriter.flush();
+	}
+	
 	void initServer(){
 		
 		
@@ -114,6 +135,10 @@ public class Server implements Runnable{
 		try {
 			this.connection = streamConnNotifier.acceptAndOpen();
 
+			outStream=connection.openOutputStream();
+			pWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(outStream)));
+			
+			connected = true;
 			RemoteDevice dev;
 			dev = RemoteDevice.getRemoteDevice(this.connection);
 	
@@ -123,6 +148,7 @@ public class Server implements Runnable{
 			//OutputStream outStream = connection.openOutputStream();
 			//PrintWriter pWriter=new PrintWriter(new OutputStreamWriter(outStream));
 		} catch (Exception e) {
+			
 			//e.printStackTrace();
 		}		
 		
@@ -133,7 +159,7 @@ public class Server implements Runnable{
 		try {
 			 initServer();
 			 try {
-		            while (true) {	             	
+		            while (true) {	 
 		            	    double[] newdataarray = sac.listen();		            	    
 		            		if (newdataarray!=null){
 		            	        //System.out.println(newdataarray[0]+","+newdataarray[1]+","+newdataarray[2]);
@@ -142,17 +168,22 @@ public class Server implements Runnable{
 		            	            newdata.add(data);
 		            	        }
 			            		int output = this.model.update(newdata);
+			            		
 			            		//System.out.println(output);
 			            	    btAudioPlayer player = outputMap.get(output);
 			            		if(player!=null){	
+			            			for(int i =0;i<playerlist.size();i++){
+				            			playerlist.get(i).stop();
+				            		}
 			            			player.play();
 			            		}
 		            		}
 		            	}
 
 		} catch(NullPointerException npe){
+			connected = false;
 			controller.setDisconnected(this.id);
-			npe.printStackTrace();
+			//npe.printStackTrace();
 			run();			
 
 	}

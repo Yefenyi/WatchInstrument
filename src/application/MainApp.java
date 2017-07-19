@@ -92,6 +92,14 @@ public class MainApp extends Application {
 	    public Stage getPrimaryStage() {
 	        return primaryStage;
 	    }
+	    
+	    public void startSyncing(int bpm){
+	    	this.servermanager.StartSyncing(bpm);
+	    }
+	    
+	    public void stopSyncing(){
+	    	this.servermanager.StopSyncing();
+	    }
 
 	public static void main(String[] args) {
 		launch(args);

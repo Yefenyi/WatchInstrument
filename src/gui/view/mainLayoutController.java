@@ -7,8 +7,11 @@ import Server.Server;
 import application.MainApp;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
@@ -18,8 +21,7 @@ import javafx.scene.text.Text;
 import javafx.scene.layout.GridPane;
 
 public class mainLayoutController 
-{
-	
+{	
 	    @FXML
 	    private Label name1;
 	    @FXML
@@ -67,6 +69,15 @@ public class mainLayoutController
 	    
 	    @FXML
 	    private GridPane layout;
+	    
+	    @FXML
+	    private Slider bpmslider;
+	    @FXML
+	    private Label bpm;
+	    
+	    @FXML
+	    private Button sync;
+
 
 	    private MainApp mainApp;
 	    
@@ -74,6 +85,9 @@ public class mainLayoutController
 	    private ArrayList<Slider> pannings;
 	    private ArrayList<Slider> volumes;
 	    private ArrayList<Circle> signals;
+	    private int bpmvalue;
+	    
+	    boolean start = false;
 	    
 	    /**
 	     * The constructor.
@@ -120,11 +134,15 @@ public class mainLayoutController
 	    	pannings = new ArrayList<>(Arrays.asList(panning1, panning2, panning3, panning4, panning5));
 	    	volumes = new ArrayList<>(Arrays.asList(volume1, volume2, volume3, volume4, volume5));
 	    	signals = new ArrayList<>(Arrays.asList(signal1, signal2, signal3, signal4, signal5));
-	    	
-	    	ObservableList<Node> childrens=layout.getChildren();
-
-
-	        
+	    	start = false;
+	    	sync.setDisable(true);
+	    	ObservableList<Node> childrens=layout.getChildren();	
+	    	bpmvalue = bpmslider.valueProperty().intValue();
+	    	bpm.setText(""+this.bpmvalue);
+	        bpmslider.valueProperty().addListener((observable, oldValue, newValue) -> { 
+      	        this.bpmvalue = newValue.intValue();
+	        	bpm.setText(""+this.bpmvalue);
+      	});
 	    }
 	    
 	    public void setMainApp(MainApp mainApp) {
@@ -145,6 +163,22 @@ public class mainLayoutController
 	        	      server.setVolume(newValue.doubleValue());
 	        	});
 	        };
+	                	
+	    	this.sync.setOnAction(new EventHandler<ActionEvent>() {
+	    	    @Override public void handle(ActionEvent e) {
+	    	    	if(start == false){
+	    	    		mainApp.startSyncing(bpmvalue);
+	    	    		start = true;
+	    	    	}
+	    	    	
+	    	    	else if(start == true){
+	    	    		mainApp.stopSyncing();
+	    	    		start = false;
+	    	    	}
+	    	    }
+	    	});
+	    	
+	    	this.sync.setDisable(false);
 	    }
 
 
