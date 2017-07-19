@@ -33,6 +33,7 @@ public class Simple3AxisCollector extends DataCollector{
 		// TODO Auto-generated method stub
 		try{
 			String lineRead =bReader.readLine();
+			//System.out.println(lineRead);
 	    	if(lineRead.startsWith("/p")){
 	    		String[] numbers = lineRead.split("/p");
 	    		double x = Double.parseDouble(numbers[1]);

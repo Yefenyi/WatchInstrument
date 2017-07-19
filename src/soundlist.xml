@@ -20,4 +20,9 @@
         <location>raw/highhat_OpenToClosed.wav</location>
         <name>highhat_OpenToClose</name>
     </sound>
+    <sound>
+        <location>raw/Organ_A_Major.wav</location>
+        <name>a_Major</name>
+    </sound>
+    
 </soundlist>

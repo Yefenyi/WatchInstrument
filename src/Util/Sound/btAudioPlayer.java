@@ -15,6 +15,7 @@ public class btAudioPlayer{
 	int index = 0,count;
 	double volume=5,panning=0;
 	String path;
+	Thread playThread = new Thread();
 	
 	public btAudioPlayer(String path, int count){
 		TinySound.init();
@@ -39,6 +40,7 @@ public class btAudioPlayer{
 		return this.volume;
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void play(double volume,double panning){		
 		/*
 		 * index = (index+1)%count;
@@ -47,15 +49,22 @@ public class btAudioPlayer{
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {}
 		*/
-		new Thread(new Runnable(){
-            public void run(){
-            	Sound player = TinySound.loadSound(path);
-            	player.play(volume,panning);
-            	try {
-        			Thread.sleep(1000);
-        		} catch (InterruptedException e) {}
-            }
-        }).start();
+		
+		if(playThread.isAlive()){			
+			playThread.destroy();
+		}
+		
+		playThread = new Thread(){
+			 public void run(){
+	            	Sound player = TinySound.loadSound(path);
+	            	player.play(volume,panning);
+	            	try {
+	        			Thread.sleep(1000);
+	        		} catch (InterruptedException e) {}
+	            }			
+		};
+		playThread.start();
+		
 	}
 		
 		public void play(){		
