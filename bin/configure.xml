@@ -5,9 +5,9 @@
         <uuid>1101</uuid>
         <model>Euclidean</model>
         <panning>0.0</panning>
-        <soundList>           
-            <sound>kick</sound>
+        <soundList>                       
             <sound>snare</sound> 
+            <sound>kick</sound>
             <sound>highhat_Closed</sound>  
             <sound>highhat_OpenToClose</sound> 
         </soundList>

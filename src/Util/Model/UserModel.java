@@ -18,15 +18,14 @@ public class UserModel extends Model{
 	private double[] output;
 	private int output1=1, output2=2, output3=3, output4=4;
 	private int UNTRIGGERED = 0;
-	private ArrayList<Integer> outputlist = new ArrayList<Integer>(Arrays.asList(UNTRIGGERED,output1,output2,output3,output4));
-	private double[] initializedOutput = new double[5];
+	private ArrayList<Integer> outputlist = new ArrayList<Integer>(Arrays.asList(UNTRIGGERED,output1,output2,output3));
+	private double[] initializedOutput = new double[Util.ParameterNameConstants.outputsCount+1];
 	
 	public UserModel(String path){
 		nnNet = NeuralNetwork.createFromFile(path);
 		ppc = new Preprocessing();
 		seg = new Segmentation();
 	}
-
 
 	@Override
 	public int update(ArrayList<Double> newdata) {
@@ -42,32 +41,36 @@ public class UserModel extends Model{
 	    	//System.out.println("Segmentation: "+READY_FOR_FEATURE_EXTRACTION);
 			if(READY_FOR_FEATURE_EXTRACTION){
 			    double[][] buffsegment = seg.getBuffSegment();
+			    //seg.printSegmentedGes(buffsegment);
+			   // System.out.println(buffsegment);
 		        featurelist = Features.getFeature(seg);
+		        //System.out.println(featurelist);
+		        
 		        process();
 		        
-		        if (output[0] > 0.93)
+		        if (output[0] > 0.9)
 		        {
 		            output = initializedOutput; 
 		        	return output1;
 		        }
 		        
-		        if (output[1] > 0.93)
+		        if (output[1] > 0.9)
 		        {
 		            output = initializedOutput; 
 		        	return output2;
 		        }
 		        
-		        if (output[2] > 0.93)
+		        if (output[2] > 0.9)
 		        {
 		            output = initializedOutput; 
-		        	return UNTRIGGERED;
+		        	return output3;
 		        }
-		        
+		       /* 
 		        if (output[3] > 0.93)
 		        {
 		            output = initializedOutput; 
 		        	return UNTRIGGERED;
-		        }
+		        }*/
 			}
 	    }catch(Exception e){
 	    	e.printStackTrace();
@@ -78,6 +81,7 @@ public class UserModel extends Model{
 	@Override
 	protected double process() {
 		// TODO Auto-generated method stub
+		//System.out.println(featurelist);
 		int featurelength = featurelist.size();
 		double[] input = new double[featurelength];
 		for (int i=0; i<featurelength;i++){
@@ -86,6 +90,7 @@ public class UserModel extends Model{
 		nnNet.setInput(input);
 		nnNet.calculate();
 		output = nnNet.getOutput();
+		System.out.println(" Output: " + Arrays.toString(output));
 		return 0;
 	}
 
