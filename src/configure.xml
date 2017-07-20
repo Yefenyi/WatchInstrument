@@ -3,12 +3,12 @@
     <server name="server1">
         <interrupt>1</interrupt>
         <uuid>1101</uuid>
-        <model>Euclidean</model>
+        <model>UserModel</model>
         <panning>0.0</panning>
         <soundList>                       
-            <sound>snare</sound> 
-            <sound>kick</sound>
-            <sound>highhat_Closed</sound>  
+            <sound>Piano_A_Sharp_Major</sound> 
+            <sound>Piano_F_Major</sound>
+            <sound>Piano_D_Sharp_Major</sound>  
             <sound>highhat_OpenToClose</sound> 
         </soundList>
     </server>

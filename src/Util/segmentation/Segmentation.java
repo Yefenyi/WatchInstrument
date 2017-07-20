@@ -47,7 +47,7 @@ public class Segmentation{
 				
 				long diff = curGestureTime - lastGestureTime;
 				lastGestureTime = curGestureTime;
-				System.out.println("Last: " + diff);
+				//System.out.println("Last: " + diff);
 				flag = true;
 				READY_FOR_FEATURE_EXTRACTION = false;
 			}
