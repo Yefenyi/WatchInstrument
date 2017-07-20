@@ -3,7 +3,7 @@
     <server name="server1">
         <interrupt>1</interrupt>
         <uuid>1101</uuid>
-        <model>Euclidean</model>
+        <model>UserModel</model>
         <panning>0.0</panning>
         <soundList>           
             <sound>kick</sound>
