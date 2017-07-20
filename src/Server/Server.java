@@ -152,7 +152,7 @@ public class Server implements Runnable{
 
 		} catch(NullPointerException npe){
 			controller.setDisconnected(this.id);
-			npe.printStackTrace();
+			//npe.printStackTrace();
 			run();			
 
 	}
