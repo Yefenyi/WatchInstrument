@@ -124,8 +124,12 @@ public class Server implements Runnable{
 	}
 	
 	public void sendMsg(String msg){
-		pWriter.write(msg);
-		pWriter.flush();
+		new Thread(){
+		public void run(){
+			pWriter.write(msg);
+		    pWriter.flush();
+		}
+		}.start();
 	}
 	
 	void initServer(){
