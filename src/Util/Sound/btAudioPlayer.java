@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import Server.Server;
 import kuusisto.tinysound.Music;
 import kuusisto.tinysound.Sound;
 import kuusisto.tinysound.TinySound;
@@ -12,19 +13,27 @@ import kuusisto.tinysound.internal.StreamSound;
 public class btAudioPlayer{
 	
 	private Sound player;
-	int index = 0,count;
-	double volume=5,panning=0;
-	String path;
-	Thread playThread = new Thread();
-	int interrupting;
+	private int index = 0,count;
+	private double volume=5,panning=0;
+	private String path;
+	private Thread playThread = new Thread();
+	private int interrupting;
+	Server server;
+
+	private PlayerIntent intent;	
 	
-	
-	public btAudioPlayer(String path, int interrupting){
+	public btAudioPlayer(String path, int interrupting, int index , PlayerIntent intent, Server server){
+		
 		TinySound.init();
 		this.path = path;
 		this.interrupting = interrupting;
 		assert(count>0);
 		this.count = count;
+		this.intent = intent;
+		this.index = index;
+		this.intent.setIndex(index);
+		this.server = server;
+		
 		player = TinySound.loadSound(path);
 		this.playThread = new Thread(){
 			 public void run(){
@@ -44,6 +53,10 @@ public class btAudioPlayer{
 		if(interrupting == 1){
 			player.stop();
 		}
+	}
+	
+	public PlayerIntent getIntent(){
+		return this.intent;
 	}
 	
 	public void setPanning(double panning){

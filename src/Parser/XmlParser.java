@@ -10,6 +10,7 @@ import org.w3c.dom.NodeList;
 
 import Info.ServerInfo;
 import Info.SoundInfo;
+import Util.Sound.PlayerIntent;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
@@ -71,10 +72,20 @@ public class XmlParser {
 		            	   
 		            	   Element soundElement = (Element) soundNode;	 
 		            	   String soundname = soundElement.getTextContent();
+		            	   int start = Integer.parseInt(soundElement.getAttribute("start"));
+		            	   String triggerData = soundElement.getAttribute("trigger");
+		            	   String[] triggerArray = triggerData.split(",");
+		            	   ArrayList<Integer> triggerPoints  = new ArrayList<>();
+		            	   
+		            	   for(String point : triggerArray){
+		            		   triggerPoints.add(Integer.parseInt(point)-1);
+		            	   }
+		            	   
+		            	   PlayerIntent intent = new PlayerIntent(start,triggerPoints);
 		            	   
 		            	   System.out.println("sound source : " 
-		     	                 + soundname+ ", " + SoundParser.getLocation(soundname));
-		            	   soundInfoList.add(sindex, new SoundInfo(soundname)); 
+		     	                 + soundname+ ", " + SoundParser.getLocation(soundname)+", start : "+start+",triggerPoints : "+triggerData);
+		            	   soundInfoList.add(sindex, new SoundInfo(soundname,intent)); 
 		               }		               
 		               serverInfoList.add(temp, new ServerInfo(name, uuid,model, panning, interrupt, soundInfoList));
 		            }

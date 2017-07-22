@@ -6,19 +6,22 @@
         <model>UserModel</model>
         <panning>0.0</panning>
         <soundList>                       
-            <sound>Piano_A_Sharp_Major</sound> 
-            <sound>Piano_F_Major</sound>
-            <sound>Piano_D_Sharp_Major</sound>  
-            <sound>highhat_OpenToClose</sound> 
+            <sound start="1" trigger="1,2,3,4">Piano_A_Sharp_Major</sound> 
+            <sound start="1" trigger="1,2,3,4">Piano_F_Major</sound>
+            <sound start="1" trigger="1,2,3,4">Piano_D_Sharp_Major</sound>  
+            <sound start="1" trigger="1,2,3,4">highhat_OpenToClose</sound> 
         </soundList>
     </server>
     <server name="server2">
         <interrupt>1</interrupt>
         <uuid>8148</uuid>
-        <model>Euclidean</model>
+        <model>UserModel</model>
         <panning>0.0</panning>
-        <soundList>
-            <sound>snare</sound> 
+        <soundList>                       
+            <sound start="1" trigger="1">Piano_A_Sharp_Major</sound> 
+            <sound start="2" trigger="2">Piano_F_Major</sound>
+            <sound start="3" trigger="3">Piano_D_Sharp_Major</sound>  
+            <sound start="1" trigger="1,2,3,4">highhat_OpenToClose</sound> 
         </soundList>
     </server>
     <server name="server3">
@@ -27,7 +30,7 @@
         <model>Euclidean</model>
         <panning>0.0</panning>
         <soundList>
-            <sound>highhat_OpenToClose</sound> 
+            <sound start="1" trigger="1,2,3,4">highhat_OpenToClose</sound> 
         </soundList>
     </server>
     <server name="server4">
@@ -36,7 +39,7 @@
         <model>Euclidean</model>
         <panning>0.0</panning>
         <soundList>
-            <sound>a_Major</sound> 
+            <sound start="1" trigger="1,2,3,4">a_Major</sound> 
         </soundList>
     </server>
     <server name="server5">
@@ -45,7 +48,7 @@
         <model>Euclidean</model>
         <panning>0.0</panning>
         <soundList>        
-            <sound>kick</sound> 
+            <sound start="1" trigger="1,2,3,4">kick</sound> 
         </soundList>
     </server>
 </serverList>

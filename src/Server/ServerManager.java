@@ -14,6 +14,8 @@ public class ServerManager {
 	 private ArrayList<Server> serverList;
 	 private SyncThread syncthread;
 	 
+	 
+	 
 	 public Server getServer(int index){
 		return serverList.get(index);
 	 }
@@ -44,10 +46,16 @@ public class ServerManager {
      public void StartSyncing(int bpm){
     	 this.syncthread = new SyncThread(bpm,serverList);
     	 new Thread(syncthread).start();
+    	 for(Server server:serverList){
+    		 server.setSyncing(true);
+    	 }
      }     
      
      public void StopSyncing(){
     	 this.syncthread.stopSync();
+    	 for(Server server:serverList){
+    		 server.setSyncing(false);
+    	 }
      }
      
      public void setController(mainLayoutController controller){
@@ -73,14 +81,20 @@ public class ServerManager {
     	 }
     	 
     	 public void run(){
+			 int timeStamp =0;
     		 while(!(this.stop_flag)){
     			 int interval = 60*1000/bpm;
+
     			 for(int i =0; i<serverList.size();i++){
     				 if(serverList.get(i).isConnected()){
     					 serverList.get(i).sendMsg("Beep!\n");
-    					 //System.out.println(serverList.get(i).getName()+" Syncing");
+    					 serverList.get(i).popCache(timeStamp);
+    					 serverList.get(i).playCache(timeStamp);
+    					 //System.out.println("timeStamp:"+timeStamp);
     				 }
     			 }
+    			 
+    			 timeStamp = (timeStamp+1)%4;
     			 try {
 					Thread.sleep(interval);
 				} catch (InterruptedException e) {

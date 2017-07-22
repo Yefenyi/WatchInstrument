@@ -8,6 +8,9 @@ import Util.Preprocessing;
 import Util.DataCollector.DataCollector;
 import Util.DataCollector.Simple3AxisCollector;
 import Util.Model.Model;
+import Util.Sound.IntentCache;
+import Util.Sound.PlayerCache;
+import Util.Sound.PlayerIntent;
 import Util.Sound.btAudioPlayer;
 import gui.view.mainLayoutController;
 
@@ -39,6 +42,10 @@ public class Server implements Runnable{
     private Model model;
     private boolean connected = false;
     private int interrupt = 0;
+    private boolean syncing = false;
+    
+    private IntentCache[] cacheList;    
+    private PlayerCache[] soundCache;
     
     private StreamConnection connection;
     OutputStream outStream;
@@ -47,7 +54,7 @@ public class Server implements Runnable{
     private double panning;
     private double volume;
     private StreamConnectionNotifier streamConnNotifier;
-    private Map<Integer,btAudioPlayer> outputMap = new HashMap<Integer,btAudioPlayer>();
+    private Map<Integer,Integer> outputMap = new HashMap<Integer,Integer>();
     private DataCollector sac;
     
     public int getId(){
@@ -86,11 +93,23 @@ public class Server implements Runnable{
     	}
     }
     
+    public void setSyncing(boolean syncing){
+    	this.syncing  = syncing;
+    }
+    
     public void setController(mainLayoutController controller){
         this.controller = controller;	
     }
     
-	public Server(ServerInfo serverinfo,int id,int interrupt) throws IOException{
+	public Server(ServerInfo serverinfo,int id,int interrupt) throws IOException{	    
+	    cacheList = new IntentCache[4];
+	    soundCache = new PlayerCache[4];
+		
+		for(int i =0; i<4; i++){
+			cacheList[i] = new IntentCache();
+			soundCache[i] = new PlayerCache();
+		}
+		
 		this.controller = controller;
 		this.interrupt = interrupt;
 		this.id = id;
@@ -101,13 +120,13 @@ public class Server implements Runnable{
 		ArrayList<SoundInfo> playlist = serverinfo.getSoundSource();
 		for(int index = 0; index<playlist.size();index++){
 			String path = SoundParser.getLocation(playlist.get(index).getName());
-		    this.playerlist.add(new btAudioPlayer(path,this.interrupt));
+		    this.playerlist.add(new btAudioPlayer(path,this.interrupt,index,playlist.get(index).getPlayerIntent(),this));
 		}
 		
-		outputMap.put(model.getOutPutArray().get(0), null);
+		outputMap.put(model.getOutPutArray().get(0), -1);
 
 		for(int index = 1;index<model.getOutPutArray().size();index++){
-			outputMap.put(model.getOutPutArray().get(index),playerlist.get(index-1));
+			outputMap.put(model.getOutPutArray().get(index),index-1);
 		}		
 		
 		LocalDevice localDevice = LocalDevice.getLocalDevice();
@@ -158,6 +177,45 @@ public class Server implements Runnable{
 		
 	}
 	
+	private void play(int index){
+		btAudioPlayer player = playerlist.get(index);			            	    
+		
+		if(player!=null){	
+			for(int i =0;i<playerlist.size();i++){
+    			playerlist.get(i).stop();
+    		}
+			player.play();
+		}
+	}
+	
+	private void registCache(PlayerIntent intent){		
+		int pos = intent.getStart()-1;
+		System.out.println("sound "+intent.getIndex()+" will be started at "+ pos);
+		cacheList[pos].push(intent);
+		System.out.println(cacheList[pos].pop().size());
+	}
+	
+	public void popCache(int index){
+		System.out.println(index+" is poped");
+		for(PlayerIntent intent:cacheList[index].pop()){
+			ArrayList<Integer> triggerPoints = intent.getTriggerPoints();
+			for(int point:triggerPoints){
+				System.out.println(intent.getIndex()+" is added to timeStamp "+ point);
+				soundCache[point].push(intent.getIndex());
+			}		    
+		}
+	    cacheList[index].clear();
+	}
+	
+	public void playCache(int index){
+		ArrayList<Integer> playerIndexes = soundCache[index].pop();
+		for(int i: playerIndexes){
+			System.out.println("playing "+i);
+			play(i);
+		}
+		soundCache[index].clear();
+	}
+	
 	@Override
 	public void run() {        
 		try {
@@ -174,13 +232,13 @@ public class Server implements Runnable{
 			            		int output = this.model.update(newdata);
 			            		
 			            		//System.out.println(output);
-			            	    btAudioPlayer player = outputMap.get(output);
-			            		if(player!=null){	
-			            			for(int i =0;i<playerlist.size();i++){
-				            			playerlist.get(i).stop();
-				            		}
-			            			player.play();
-			            		}
+			            		int index = outputMap.get(output);
+			            		if(index>=0){
+			            			if(this.syncing == true){
+			            			registCache(playerlist.get(index).getIntent());
+			            			}
+			            			else{play(index);}
+			            	    }
 		            		}
 		            	}
 
