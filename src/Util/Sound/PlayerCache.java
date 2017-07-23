@@ -14,6 +14,7 @@ public class PlayerCache {
     }	
     
     public void push(int index){
+    	cache.clear();
     	cache.add(index);
     }
     

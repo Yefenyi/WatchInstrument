@@ -8,13 +8,18 @@ import Info.ServerInfo;
 import Server.Server;
 import application.MainApp;
 import gui.view.mainLayoutController;
+import kuusisto.tinysound.Sound;
+import kuusisto.tinysound.TinySound;
 
 public class ServerManager {
 	
 	 private ArrayList<Server> serverList;
 	 private SyncThread syncthread;
+	 private static int timeStamp  =0;
 	 
 	 
+	 Sound one, two, three, four;
+	 ArrayList<Sound> counting = new ArrayList<>();
 	 
 	 public Server getServer(int index){
 		return serverList.get(index);
@@ -25,6 +30,18 @@ public class ServerManager {
 	 }
      
      public ServerManager() throws IOException{
+    	 TinySound.init();
+    	 
+    	 one = TinySound.loadSound("raw/One.wav");
+    	 two = TinySound.loadSound("raw/Two.wav");
+    	 three = TinySound.loadSound("raw/Three.wav");
+    	 four = TinySound.loadSound("raw/Four.wav");
+    	 
+    	 counting.add(one);
+    	 counting.add(two);
+    	 counting.add(three);
+    	 counting.add(four);
+    	 
 		 XmlParser xmlparser =  new XmlParser();
 		 ArrayList<ServerInfo> serverinfolist = xmlparser.getServerInfo();
 		 syncthread = new SyncThread(60,serverList);
@@ -64,11 +81,15 @@ public class ServerManager {
     	 } 
      }
      
+     public static int getTimeStamp(){
+    	 return timeStamp;
+     }
+     
      
      class SyncThread implements Runnable{
     	 private volatile boolean stop_flag = false;
     	 private ArrayList<Server> serverList;
-    	 private int bpm = 60;   
+    	 private int bpm = 60; 
     	 
     	 public SyncThread(int bpm, ArrayList<Server> serverList){
     		 this.serverList = serverList;
@@ -81,20 +102,27 @@ public class ServerManager {
     	 }
     	 
     	 public void run(){
-			 int timeStamp =0;
+    		 int phaseCount = 0;
+			 timeStamp =0;
     		 while(!(this.stop_flag)){
     			 int interval = 60*1000/bpm;
-
+                 
     			 for(int i =0; i<serverList.size();i++){
     				 if(serverList.get(i).isConnected()){
     					 serverList.get(i).sendMsg("Beep!\n");
-    					 serverList.get(i).popCache(timeStamp);
+    					 counting.get(timeStamp).play();
+    					 //serverList.get(i).popCache(timeStamp);
     					 serverList.get(i).playCache(timeStamp);
     					 //System.out.println("timeStamp:"+timeStamp);
     				 }
     			 }
+    			 if(phaseCount<8){
+    				 //counting.get(timeStamp).play();
+    				 phaseCount++;
+    			 }
     			 
     			 timeStamp = (timeStamp+1)%4;
+    			 
     			 try {
 					Thread.sleep(interval);
 				} catch (InterruptedException e) {

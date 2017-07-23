@@ -235,7 +235,20 @@ public class Server implements Runnable{
 			            		int index = outputMap.get(output);
 			            		if(index>=0){
 			            			if(this.syncing == true){
-			            			registCache(playerlist.get(index).getIntent());
+			            			     ArrayList<Integer> triggerPoints = playerlist.get(index).getIntent().getTriggerPoints();
+			            			     int timeStamp = ServerManager.getTimeStamp();
+			            			     
+			            			     if(timeStamp<=1){
+				            			     for(int trigger:triggerPoints){
+				            			    	 if(trigger>=timeStamp){
+				            			    		 soundCache[trigger].push(index);
+				            			    	 }
+				            			     }
+			            			     }
+			            			     else{
+			            			    	// cacheList[]
+			            			     }
+			            			     
 			            			}
 			            			else{play(index);}
 			            	    }

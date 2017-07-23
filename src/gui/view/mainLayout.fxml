@@ -76,7 +76,7 @@
             </Label>
          </children>
       </GridPane>
-      <Slider fx:id="bpmslider" blockIncrement="0.1" layoutX="23.0" layoutY="338.0" majorTickUnit="10.0" max="200.0" min="40.0" minWidth="150.0" minorTickCount="4" prefHeight="37.0" prefWidth="511.0" showTickLabels="true" showTickMarks="true" value="60.0" />
+      <Slider fx:id="bpmslider" blockIncrement="0.1" layoutX="23.0" layoutY="338.0" majorTickUnit="10.0" max="200.0" min="40.0" minWidth="150.0" minorTickCount="4" prefHeight="37.0" prefWidth="511.0" showTickLabels="true" showTickMarks="true" value="104.0" />
       <Label fx:id="bpm" layoutX="5.0" layoutY="340.0" text="--">
          <font>
             <Font name="Calibri" size="14.0" />
