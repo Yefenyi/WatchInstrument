@@ -106,13 +106,17 @@ public class ServerManager {
 			 timeStamp =0;
     		 while(!(this.stop_flag)){
     			 int interval = 60*1000/bpm;
-                 
+				 counting.get(timeStamp).play();
+				 
     			 for(int i =0; i<serverList.size();i++){
     				 if(serverList.get(i).isConnected()){
+    					 
     					 serverList.get(i).sendMsg("Beep!\n");
-    					 counting.get(timeStamp).play();
-    					 //serverList.get(i).popCache(timeStamp);
+    					 
+    					 serverList.get(i).popCache(timeStamp);
     					 serverList.get(i).playCache(timeStamp);
+    					 
+    					 
     					 //System.out.println("timeStamp:"+timeStamp);
     				 }
     			 }

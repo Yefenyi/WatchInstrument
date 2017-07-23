@@ -235,19 +235,22 @@ public class Server implements Runnable{
 			            		int index = outputMap.get(output);
 			            		if(index>=0){
 			            			if(this.syncing == true){
+			            				 int timeStamp = ServerManager.getTimeStamp();
 			            			     ArrayList<Integer> triggerPoints = playerlist.get(index).getIntent().getTriggerPoints();
-			            			     int timeStamp = ServerManager.getTimeStamp();
+			            			     //	int timeStamp = ServerManager.getTimeStamp();
 			            			     
-			            			     if(timeStamp<=1){
+			            			     if(timeStamp==0||timeStamp==3){
+			            			    	 PlayerIntent intent = playerlist.get(index).getIntent();
+			            			    	 cacheList[intent.getStart()-1].push(intent);
+			            			     }
+			            			     else{
 				            			     for(int trigger:triggerPoints){
 				            			    	 if(trigger>=timeStamp){
 				            			    		 soundCache[trigger].push(index);
 				            			    	 }
 				            			     }
 			            			     }
-			            			     else{
-			            			    	// cacheList[]
-			            			     }
+
 			            			     
 			            			}
 			            			else{play(index);}
