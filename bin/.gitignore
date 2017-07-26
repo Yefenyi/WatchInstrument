@@ -1,9 +1,9 @@
-/gui/
 /Info/
+/Main.class
 /Parser/
 /Server/
-/UserModel/
 /Util/
 /application/
+/gui/
+/soundlist.out.xml
 /raw/
-/configure.out.xml

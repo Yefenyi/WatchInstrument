@@ -1,13 +1,14 @@
 package Util;
 
 import Util.segmentation.Euclidean;
+import Util.ParameterNameConstants;
 
 
 //import net.sf.javaml.distance.fastdtw.*;
 
 
 public class Preprocessing implements ParameterNameConstants {
-	private int SIZE_OF_BUFFER = 5;
+	//private int SIZE_OF_BUFFER = 5;
 	private double[][] sensorsHistory;
 	private double[][] historyAverage;
 	private double[] euclideanHistory;
@@ -19,10 +20,10 @@ public class Preprocessing implements ParameterNameConstants {
 		initArrays();
 	}
 	
-	public Preprocessing(int buffer_size){
-		SIZE_OF_BUFFER = buffer_size;
-		initArrays();
-	}
+//	public Preprocessing(int buffer_size){
+//		SIZE_OF_BUFFER = buffer_size;
+//		initArrays();
+//	}
 	
 	private void initArrays(){
 		sensorsHistory = new double[SIZE_OF_BUFFER][NUMBER_OF_AXIS];

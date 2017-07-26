@@ -3,7 +3,7 @@
     <server name="server1">
         <interrupt>1</interrupt>
         <uuid>1101</uuid>
-        <model>UserModel</model>
+        <model>Euclidean</model>
         <panning>0.0</panning>
         <soundList>                       
             <sound>Piano_A_Sharp_Major</sound> 
@@ -18,7 +18,10 @@
         <model>Euclidean</model>
         <panning>0.0</panning>
         <soundList>
-            <sound>snare</sound> 
+            <sound>Piano_F_Major</sound> 
+            <sound>Piano_A_Sharp_Major</sound>
+            <sound>Piano_D_Sharp_Major</sound>  
+            <sound>highhat_OpenToClose</sound> 
         </soundList>
     </server>
     <server name="server3">
@@ -27,7 +30,7 @@
         <model>Euclidean</model>
         <panning>0.0</panning>
         <soundList>
-            <sound>highhat_OpenToClose</sound> 
+            <sound>Organ_D_Sharp_Major</sound> 
         </soundList>
     </server>
     <server name="server4">
