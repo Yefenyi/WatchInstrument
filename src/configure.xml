@@ -3,13 +3,18 @@
     <server name="server1">
         <interrupt>1</interrupt>
         <uuid>1101</uuid>
-        <model>UserModel</model>
+        <model>Euclidean</model>
         <panning>0.0</panning>
         <soundList>                       
-            <sound start="1" trigger="1,2,3,4">Piano_A_Sharp_Major</sound> 
-            <sound start="1" trigger="1,2,3,4">Piano_F_Major</sound>
-            <sound start="1" trigger="1,2,3,4">Piano_D_Sharp_Major</sound>  
-            <sound start="1" trigger="1,2,3,4">highhat_OpenToClose</sound> 
+            <sound start="1" trigger="1,2,3,4">RC</sound> 
+            <sound start="1" trigger="1,2,3,4">Piano_A_Minor</sound>
+            <sound start="1" trigger="1,2,3,4">Piano_A_Sharp_Major</sound>  
+            <sound start="1" trigger="1,2,3,4">Piano_A_Sharp_Minor</sound>
+            <sound start="1" trigger="1,2,3,4">Piano_B_Major</sound>
+            <sound start="1" trigger="1,2,3,4">Piano_B_Minor</sound>
+            <sound start="1" trigger="1,2,3,4">Piano_C_Major</sound>
+            <sound start="1" trigger="1,2,3,4">Piano_C_Minor</sound>
+            <sound start="1" trigger="1,2,3,4">Piano_D_Major</sound>
         </soundList>
     </server>
     <server name="server2">
@@ -27,10 +32,18 @@
     <server name="server3">
         <interrupt>1</interrupt>
         <uuid>2146</uuid>
-        <model>Euclidean</model>
+        <model>UserModel9Gesture</model>
         <panning>0.0</panning>
-        <soundList>
-            <sound start="1" trigger="1,2,3,4">highhat_OpenToClose</sound> 
+        <soundList>                       
+            <sound start="1" trigger="1,3">Piano_A_Major</sound> 
+            <sound start="1" trigger="1,2,3,4">Piano_A_Minor</sound>
+            <sound start="1" trigger="1,2,3,4">Piano_A_Sharp_Major</sound>  
+            <sound start="1" trigger="1,2,3,4">Piano_A_Sharp_Minor</sound>
+            <sound start="1" trigger="1,2,3,4">Piano_B_Major</sound>
+            <sound start="1" trigger="1,2,3,4">Piano_B_Minor</sound>
+            <sound start="1" trigger="1,2,3,4">Piano_C_Major</sound>
+            <sound start="1" trigger="1,2,3,4">Piano_C_Minor</sound>
+            <sound start="1" trigger="1,2,3,4">Piano_D_Major</sound>
         </soundList>
     </server>
     <server name="server4">
