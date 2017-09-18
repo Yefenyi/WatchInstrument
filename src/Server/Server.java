@@ -12,7 +12,7 @@ import Util.Sound.IntentCache;
 import Util.Sound.PlayerCache;
 import Util.Sound.PlayerIntent;
 import Util.Sound.btAudioPlayer;
-import gui.view.mainLayoutController;
+import gui.controller.mainLayoutController;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

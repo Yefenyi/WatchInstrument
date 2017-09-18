@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import Info.ServerInfo;
 import Server.Server;
 import application.MainApp;
-import gui.view.mainLayoutController;
+import gui.controller.mainLayoutController;
 import kuusisto.tinysound.Sound;
 import kuusisto.tinysound.TinySound;
 
@@ -101,18 +101,21 @@ public class ServerManager {
     		 stop();
     	 }
     	 
+    	 
     	 public void run(){
     		 int phaseCount = 0;
 			 timeStamp =0;
     		 while(!(this.stop_flag)){
     			 int interval = 60*1000/bpm;
-				 counting.get(timeStamp).play();
+
+
+    			 //if (timeStamp==3)
+    				 //counting.get(timeStamp).play();
 				 
     			 for(int i =0; i<serverList.size();i++){
     				 if(serverList.get(i).isConnected()){
-    					 
+    					 if (timeStamp==2)
     					 serverList.get(i).sendMsg("Beep!\n");
-    					 
     					 serverList.get(i).popCache(timeStamp);
     					 serverList.get(i).playCache(timeStamp);
     					 

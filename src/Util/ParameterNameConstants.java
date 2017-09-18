@@ -9,10 +9,10 @@ public interface ParameterNameConstants {
 	
 	public static int NUMBER_OF_AXIS=3;
 	public static int SIZE_OF_BUFFER = 5;
-	public static int SIZE_OF_SEGMENT = 20;
-	public static int NUMBER_OF_GESTURES = 9;
-    static int inputsCount = 42;
-	static int outputsCount = 9;
+	public static int SIZE_OF_SEGMENT = 15;
+	public static int NUMBER_OF_GESTURES = 3;
+    static int inputsCount = 24;
+	static int outputsCount = 3;
 	NeuralNetwork loadedMlPerceptron = NeuralNetwork.createFromFile("myMlPerceptron.nnet");
 
 }

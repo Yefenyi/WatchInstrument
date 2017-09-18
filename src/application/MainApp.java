@@ -4,19 +4,22 @@ import java.io.IOException;
 
 import Parser.SoundParser;
 import Server.ServerManager;
+import gui.controller.mainLayoutController;
+import gui.controller.rootLayoutController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import gui.view.mainLayoutController;
 
 public class MainApp extends Application {
 	    private Stage primaryStage;
+	   
 	    private BorderPane rootLayout;
 	    private ServerManager servermanager;
 	    private mainLayoutController controller;
+	    private rootLayoutController rootController;
 	    
 	    public ServerManager getServerManager(){
 	    	return this.servermanager;

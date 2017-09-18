@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.Button?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="450.0" prefWidth="600.0" fx:controller="gui.controller.ConfigurationLayoutController">
+	<!-- TODO Add Nodes -->
+	<center>
+	<Button fx:id="server1" layoutX="543.0" layoutY="342.0" mnemonicParsing="false" text="server1" />
+      
+	</center>
+</BorderPane>
+

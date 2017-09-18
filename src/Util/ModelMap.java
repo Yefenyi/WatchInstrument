@@ -17,6 +17,8 @@ public class ModelMap {
     	    	 return new UserModel("src/UserModel/myMlPerceptronRMatt.nnet");
     	     case "UserModel9Gesture":
     	    	 return new UserModel("src/UserModel/myMlPerceptron6ges.nnet");
+    	     case "UserModel3Gesture":
+    	    	 return new UserModel("src/UserModel/myMlPerceptron3ges.nnet");
  
     	 default:
     		 return null;
